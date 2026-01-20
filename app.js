@@ -93,10 +93,10 @@ fetch('data/postcodes.json')
                 layer.bindPopup(`
                     <b>Postcode: ${p.POA_CODE21 || p.POSTCODE}</b><br>
                     ${p.State}<br><hr>
-                    🌱 Agriculture: ${p.Agriculture === 1 ? 'ANO' : 'ne'}<br>
-                    🏗️ Construction: ${p.Construction === 1 ? 'ANO' : 'ne'}<br>
-                    ☕ Hospitality and tourism: ${p.Hospitality_Tourism === 1 ? 'ANO' : 'ne'}<br>
-                    🌲 Forestry and fishing: ${p.Fishing_Forestry === 1 ? 'ANO' : 'ne'}
+                    🌱 Agriculture: ${p.Agriculture === 1 ? 'YES' : 'NO'}<br>
+                    🏗️ Construction: ${p.Construction === 1 ? 'YES' : 'NO'}<br>
+                    ☕ Hospitality and tourism: ${p.Hospitality_Tourism === 1 ? 'YES' : 'NO'}<br>
+                    🌲 Forestry and fishing: ${p.Fishing_Forestry === 1 ? 'YES' : 'NO'}
                 `);
             }
         });
