@@ -5,26 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Australia: Eligible Work Map</title>
     
+    <!-- Leaflet map library styles -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Font icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
+    <!-- Application styles -->
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
+    <!-- Main map container -->
     <div id="map"></div>
 
+    <!-- Postcode search control -->
     <div id="search-container">
         <input type="text" id="search-input" placeholder="Search for postcode (e.g., 4870)...">
         <button id="search-btn" type="button"><i class="fas fa-search"></i></button>
     </div>
 
+    <!-- Sidebar with map controls and project information -->
     <div id="sidebar">
         <button id="sidebar-toggle"><i class="fas fa-chevron-right"></i></button>
 
         <div class="sidebar-content">
             <h2>Map settings</h2>
 
+            <!-- States layer controls -->
             <div class="accordion-item">
                 <div class="accordion-header">
                     <div class="header-left">
@@ -44,6 +49,7 @@
 
             <hr>
 
+            <!-- Postcodes layer and job type filter -->
             <div class="accordion-item active">
                 <div class="accordion-header">
                     <div class="header-left">
@@ -58,6 +64,7 @@
                         <label>Transparency:</label>
                         <input type="range" id="slider-postcodes" min="0.1" max="1" step="0.1" value="0.5">
                         
+                        <!-- Job category filter -->
                         <p class="small-title">Industry:</p>
                         <form id="filter-form">
                             <div class="radio-item">
@@ -83,6 +90,7 @@
 
             <hr>
 
+            <!-- Project information -->
             <div class="accordion-item">
                 <div class="accordion-header">
                     <div class="header-left">
@@ -121,7 +129,9 @@
         </div>
     </div>
 
+    <!-- Leaflet map library -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Main application logic -->
     <script src="app.js"></script>
 </body>
 </html>

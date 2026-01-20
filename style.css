@@ -1,5 +1,5 @@
 /* =========================================
-   1. MAP AND MAIN SETTINGS
+   1. MAP AND GLOBAL SETTINGS
    ========================================= */
 body { 
     margin: 0; 
@@ -16,7 +16,7 @@ body {
 }
 
 /* =========================================
-   2. SEARCH WINDOW
+   2. SEARCH CONTAINER (Top Left)
    ========================================= */
 #search-container {
     position: absolute;
@@ -51,7 +51,7 @@ body {
 #search-btn:hover { background: #555; }
 
 /* =========================================
-   3. SIDEBAR 
+   3. SIDEBAR (Right Panel)
    ========================================= */
 #sidebar {
     position: absolute;
@@ -65,12 +65,12 @@ body {
     display: flex;
 }
 
-/* Class for hidden panel*/
+/* Class for collapsed/hidden panel */
 #sidebar.collapsed {
     transform: translateX(320px);
 }
 
-/* Push button */
+/* Toggle button (Arrow tab) */
 #sidebar-toggle {
     position: absolute;
     left: -40px;
@@ -106,10 +106,10 @@ h2 {
 }
 
 /* =========================================
-   4. AKORDEON (ROLLING PART)
+   4. ACCORDION (Collapsible Sections)
    ========================================= */
 
-/* Main part (header + content */
+/* Main container item */
 .accordion-item {
     margin-bottom: 15px;
     border: 1px solid #eee; 
@@ -117,7 +117,7 @@ h2 {
     overflow: hidden; 
 }
 
-/* Header */
+/* Header section (Clickable area) */
 .accordion-header {
     display: flex;
     justify-content: space-between;
@@ -132,7 +132,7 @@ h2 {
     background: #f0f0f0;
 }
 
-/* Left part of the header */
+/* Left part of header (Checkbox + Label) */
 .header-left {
     display: flex;
     align-items: center;
@@ -149,14 +149,14 @@ h2 {
     accent-color: #333; 
 }
 
-/* right arrow */
+/* Arrow icon */
 .arrow-icon {
     font-size: 12px;
     color: #888;
     transition: transform 0.3s ease; 
 }
 
-/* content (Slider, filters...) - Hidden default */
+/* Content section (Sliders, Filters) - Hidden by default */
 .accordion-content {
     display: none; 
     padding: 15px;
@@ -165,24 +165,24 @@ h2 {
     animation: fadeIn 0.4s ease; 
 }
 
-/* When an item has the .active class, show the content */
+/* Display content when active */
 .accordion-item.active .accordion-content {
     display: block;
 }
 
-/* When an item has the .active class, turn the arrow */
+/* Rotate arrow when active */
 .accordion-item.active .arrow-icon {
     transform: rotate(180deg);
 }
 
-/* animation */
+/* Fade-in animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================================
-   5. CONTROLS INSIDE (SLIDERS, RADIO)
+   5. UI CONTROLS (Sliders, Radios, Text)
    ========================================= */
 
 .controls label {
@@ -209,7 +209,7 @@ input[type=range] {
     padding-top: 10px;
 }
 
-/* Radio button (industry filtres) */
+/* Radio buttons (Industry filters) */
 .radio-item {
     margin-bottom: 10px;
     display: flex;
@@ -231,7 +231,7 @@ input[type=range] {
     margin-bottom: 0; 
 }
 
-/* Text about project */
+/* Info text styling */
 .info-text {
     font-size: 13px;
     color: #555;
@@ -248,7 +248,7 @@ input[type=range] {
 }
 
 /* =========================================
-   6. COLOURS
+   6. LEGEND INDICATORS (Dots)
    ========================================= */
 .dot {
     width: 12px;

@@ -1,57 +1,55 @@
-// 1. Map initialization
+// 1. MAP INITIALIZATION
 const map = L.map('map').setView([-27, 133], 4);
 
+// Base layer (OpenStreetMap)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors',
     maxZoom: 19
 }).addTo(map);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19
-}).addTo(map);
-
-// Map scale
+// Map scale control
 L.control.scale({
-    metric: true,      // Metric measurments
-    imperial: false,   
-    position: 'bottomleft' // Position
+    metric: true,      // Enable metric units
+    imperial: false,   // Disable imperial units
+    position: 'bottomleft'
 }).addTo(map);
 
 
-// Polygon layers
+// 2. GLOBAL VARIABLES & CONFIGURATION
 let statesLayer;
 let postcodesLayer;
 
-// Default values
+// Default filter and opacity settings
 let currentFilter = 'Agriculture'; 
-let opacityStates = 0.5;    // Transparency
-let opacityPostcodes = 0.5; // Transparency
+let opacityStates = 0.5;    
+let opacityPostcodes = 0.5; 
 
-// polygon style of states
+// 3. STYLE FUNCTIONS
+
+// Style definition for State borders
 function styleStates(feature) {
     return {
-        fillColor: '#e9e761', // Tvoje žlutá barva
+        fillColor: '#e9e761', // Default yellow fill
         weight: 1,
         opacity: 0.8,
-        color: '#a642d0',
+        color: '#a642d0',     // Purple border
         fillOpacity: opacityStates 
     };
 }
 
-// Function for colour of postcodes polygon
+// Style definition for Postcodes based on active filter
 function stylePostcodes(feature) {
     const p = feature.properties;
-    // Zjistíme, jestli je polygon pro daný filtr aktivní
+    
+    // Check if the postcode is eligible for the selected visa category
     const isActive = p[currentFilter] === 1;
 
-    let fillColor = '#555555'; // Tmavší šedá pro neaktivní
+    let fillColor = '#555555'; // Dark gray for inactive areas
     
-    // Pokud je aktivní, použijeme nastavenou průhlednost.
-    // Pokud je neaktivní, použijeme jen 30 % z této hodnoty.
+    // Opacity logic: Active areas use full setting, inactive areas are dimmed (30%)
     let currentFillOpacity = isActive ? opacityPostcodes : (opacityPostcodes * 0.3);
     
-    // STYLE FOR ACTIVE POLYGON
+    // Set color based on the active industry filter
     if (isActive) {
         if (currentFilter === 'Agriculture') fillColor = '#4daf4a';
         else if (currentFilter === 'Construction') fillColor = '#e41a1c';
@@ -62,34 +60,33 @@ function stylePostcodes(feature) {
     return {
         fillColor: fillColor,
         fillOpacity: currentFillOpacity,
-        // Outliner
-        color: '#333333',
+        color: '#333333', // Dark border
         weight: 0.8,
-        opacity: 1 // Hranice mizí spolu s výplní
+        opacity: 1 
     };
 }
 
 
-// DATA LOADING
+// 4. DATA LOADING (GeoJSON)
 
-// STATES
+// Load States data
 fetch('data/states.json')
     .then(res => res.json())
     .then(data => {
         statesLayer = L.geoJSON(data, { style: styleStates });
-        // Hned přidáme do mapy (checkbox je defaultně zapnutý)
-        statesLayer.addTo(map);
+        statesLayer.addTo(map); 
     });
 
-// POSTCODE
+// Load Postcodes data
 fetch('data/postcodes.json')
     .then(res => res.json())
     .then(data => {
         postcodesLayer = L.geoJSON(data, {
-            renderer: L.canvas(),
+            renderer: L.canvas(), // Use Canvas renderer 
             style: stylePostcodes,
             onEachFeature: function(feature, layer) {
                 const p = feature.properties;
+                // Popup content definition
                 layer.bindPopup(`
                     <b>Postcode: ${p.POA_CODE21 || p.POSTCODE}</b><br>
                     ${p.State}<br><hr>
@@ -100,17 +97,17 @@ fetch('data/postcodes.json')
                 `);
             }
         });
-        // Add to map
         postcodesLayer.addTo(map);
     });
 
 
-// LAYER CONTROLLING (Sidebar) 
+// 5. SIDEBAR CONTROLS & INTERACTIVITY
 
-// 1. STATES
+// --- STATES LAYER CONTROL ---
 const checkStates = document.getElementById('check-states');
 const sliderStates = document.getElementById('slider-states');
 
+// Toggle layer visibility
 checkStates.addEventListener('change', function(e) {
     if (e.target.checked) {
         if (statesLayer) map.addLayer(statesLayer);
@@ -119,16 +116,18 @@ checkStates.addEventListener('change', function(e) {
     }
 });
 
+// Adjust opacity
 sliderStates.addEventListener('input', function(e) {
     opacityStates = parseFloat(e.target.value);
     if (statesLayer) statesLayer.setStyle(styleStates);
 });
 
-// 2. POSTCODE
+// --- POSTCODES LAYER CONTROL ---
 const checkPostcodes = document.getElementById('check-postcodes');
 const sliderPostcodes = document.getElementById('slider-postcodes');
 const radioFilters = document.querySelectorAll('input[name="jobFilter"]');
 
+// Toggle layer visibility
 checkPostcodes.addEventListener('change', function(e) {
     if (e.target.checked) {
         if (postcodesLayer) map.addLayer(postcodesLayer);
@@ -137,12 +136,13 @@ checkPostcodes.addEventListener('change', function(e) {
     }
 });
 
+// Adjust opacity
 sliderPostcodes.addEventListener('input', function(e) {
     opacityPostcodes = parseFloat(e.target.value);
     if (postcodesLayer) postcodesLayer.setStyle(stylePostcodes);
 });
 
-// Category switching
+// Switch industry category filter
 radioFilters.forEach(radio => {
     radio.addEventListener('change', function(e) {
         currentFilter = e.target.value;
@@ -153,7 +153,9 @@ radioFilters.forEach(radio => {
 });
 
 
-// SIDEBAR FUNCTIONALITY (Sliding)
+// 6. UI FUNCTIONALITY
+
+// Sidebar toggling (Slide in/out)
 const sidebar = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebar-toggle');
 const sidebarIcon = sidebarToggle.querySelector('i');
@@ -161,7 +163,7 @@ const sidebarIcon = sidebarToggle.querySelector('i');
 sidebarToggle.addEventListener('click', function() {
     sidebar.classList.toggle('collapsed');
     
-    // Icon changing
+    // Toggle arrow icon direction
     if (sidebar.classList.contains('collapsed')) {
         sidebarIcon.classList.remove('fa-chevron-right');
         sidebarIcon.classList.add('fa-chevron-left');
@@ -172,7 +174,7 @@ sidebarToggle.addEventListener('click', function() {
 });
 
 
-// SEARCHING BOX
+// Search Functionality
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
 
@@ -181,63 +183,62 @@ function searchPostcode() {
     
     if (!query) return;
     if (!postcodesLayer) {
-        alert("Data loading");
+        alert("Data is still loading...");
         return;
     }
 
     let foundLayer = null;
 
+    // Iterate through layers to find matching postcode
     postcodesLayer.eachLayer(function(layer) {
         const props = layer.feature.properties;
+        // Ensure comparison handles both string/number formats
         if (String(props.POA_CODE21) === query) {
             foundLayer = layer;
         }
     });
 
     if (foundLayer) {
+        // Zoom to feature and open popup
         map.fitBounds(foundLayer.getBounds());
         foundLayer.openPopup();
         
+        // Highlight effect (red border for 3 seconds)
         const originalStyle = postcodesLayer.options.style(foundLayer.feature);
         foundLayer.setStyle({ color: 'red', weight: 3, fillOpacity: 0.8 });
         
         setTimeout(() => {
             foundLayer.setStyle(originalStyle);
-            // Musíme znovu aplikovat styl, aby se to vrátilo do správné barvy
+            // Re-apply global style to ensure consistency
             postcodesLayer.setStyle(stylePostcodes); 
         }, 3000);
     } else {
-        alert("PSČ " + query + " nebylo nalezeno.");
+        alert("Postcode " + query + " not found.");
     }
 }
 
+// Event listeners for search
 searchBtn.addEventListener('click', searchPostcode);
 searchInput.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
-        e.preventDefault();
+        e.preventDefault(); // Prevent form submission page reload
         searchPostcode();
     }
 });
 
 
-// --- 6. LOGIKA PRO ROZBALOVACÍ MENU (AKORDEON) ---
-
-// Najdeme všechny hlavičky v menu
+// 7. ACCORDION LOGIC (Collapsible Sidebar Sections)
 const accHeaders = document.querySelectorAll('.accordion-header');
 
 accHeaders.forEach(header => {
     header.addEventListener('click', function(e) {
-        // DŮLEŽITÉ: Pokud uživatel klikl přímo na checkbox (input),
-        // nechceme spouštět rozbalování/sbalování, chceme jen vypnout vrstvu.
-        // Takže funkci ukončíme (return).
+        // IMPORTANT: Prevent toggling if the user clicks the checkbox input directly
         if (e.target.tagName === 'INPUT') {
             return;
         }
 
-        // Najdeme rodičovský element (.accordion-item)
+        // Toggle 'active' class on the parent item to show/hide content
         const item = this.parentElement;
-
-        // Přepneme třídu 'active' -> to v CSS spustí zobrazení obsahu a otočení šipky
         item.classList.toggle('active');
     });
 });
