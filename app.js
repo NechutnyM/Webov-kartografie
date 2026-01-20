@@ -67,8 +67,8 @@ function stylePostcodes(feature) {
         
         // HRANICE (Borders)
         color: '#333333',
-        weight: 0.5,
-        opacity: opacityPostcodes // Hranice mizí spolu s výplní
+        weight: 0.8,
+        opacity: 1 // Hranice mizí spolu s výplní
     };
 }
 

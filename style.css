@@ -1,11 +1,11 @@
 /* =========================================
-   1. ZÁKLADNÍ NASTAVENÍ A MAPA
+   1. MAP AND MAIN SETTINGS
    ========================================= */
 body { 
     margin: 0; 
     padding: 0; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    overflow: hidden; /* Zabrání scrollování celé stránky */
+    overflow: hidden; 
 }
 
 #map {
@@ -16,12 +16,12 @@ body {
 }
 
 /* =========================================
-   2. VYHLEDÁVÁNÍ (VLEVO NAHOŘE)
+   2. SEARCH WINDOW
    ========================================= */
 #search-container {
     position: absolute;
     top: 20px;
-    left: 60px; /* Odsazení zleva, aby to nelezlo do zoom tlačítek */
+    left: 60px; 
     z-index: 1000;
     background: white;
     padding: 5px;
@@ -51,7 +51,7 @@ body {
 #search-btn:hover { background: #555; }
 
 /* =========================================
-   3. SIDEBAR (VYSOUVACÍ PANEL VPRAVO)
+   3. SIDEBAR 
    ========================================= */
 #sidebar {
     position: absolute;
@@ -65,12 +65,12 @@ body {
     display: flex;
 }
 
-/* Třída pro schovaný panel */
+/* Class for hidden panel*/
 #sidebar.collapsed {
     transform: translateX(320px);
 }
 
-/* Tlačítko (Jazýček) pro zasouvání */
+/* Push button */
 #sidebar-toggle {
     position: absolute;
     left: -40px;
@@ -91,7 +91,7 @@ body {
 
 .sidebar-content {
     padding: 20px;
-    overflow-y: auto; /* Rolování obsahu, pokud je dlouhý */
+    overflow-y: auto; 
     width: 100%;
     box-sizing: border-box;
 }
@@ -106,18 +106,18 @@ h2 {
 }
 
 /* =========================================
-   4. AKORDEON (NOVÁ ČÁST PRO ROZBALOVÁNÍ)
+   4. AKORDEON (ROLLING PART)
    ========================================= */
 
-/* Celá položka (Header + Content) */
+/* Main part (header + content */
 .accordion-item {
     margin-bottom: 15px;
-    border: 1px solid #eee; /* Jemný rámeček okolo sekce */
+    border: 1px solid #eee; 
     border-radius: 4px;
-    overflow: hidden; /* Aby obsah nepřetékal při animaci */
+    overflow: hidden; 
 }
 
-/* Hlavička (to, na co klikáš) */
+/* Header */
 .accordion-header {
     display: flex;
     justify-content: space-between;
@@ -132,7 +132,7 @@ h2 {
     background: #f0f0f0;
 }
 
-/* Levá část hlavičky (Checkbox + Text) */
+/* Left part of the header */
 .header-left {
     display: flex;
     align-items: center;
@@ -146,45 +146,43 @@ h2 {
     height: 16px;
     margin-right: 10px;
     cursor: pointer;
-    accent-color: #333; /* Barva zaškrtnutí */
+    accent-color: #333; 
 }
 
-/* Šipka vpravo */
+/* right arrow */
 .arrow-icon {
     font-size: 12px;
     color: #888;
-    transition: transform 0.3s ease; /* Plynulé otočení */
+    transition: transform 0.3s ease; 
 }
 
-/* Obsah (Slider, Filtry...) - Defaultně skryto! */
+/* content (Slider, filters...) - Hidden default */
 .accordion-content {
-    display: none; /* Tady je ten trik - schováno */
+    display: none; 
     padding: 15px;
     background: white;
     border-top: 1px solid #eee;
-    animation: fadeIn 0.4s ease; /* Efekt při objevení */
+    animation: fadeIn 0.4s ease; 
 }
 
-/* --- STAVY --- */
-
-/* Když má položka třídu .active, ukaž obsah */
+/* When an item has the .active class, show the content */
 .accordion-item.active .accordion-content {
     display: block;
 }
 
-/* Když má položka třídu .active, otoč šipku */
+/* When an item has the .active class, turn the arrow */
 .accordion-item.active .arrow-icon {
     transform: rotate(180deg);
 }
 
-/* Animace pro hladké zobrazení obsahu */
+/* animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================================
-   5. OVLÁDACÍ PRVKY UVNITŘ (SLIDERY, RADIO)
+   5. CONTROLS INSIDE (SLIDERS, RADIO)
    ========================================= */
 
 .controls label {
@@ -211,7 +209,7 @@ input[type=range] {
     padding-top: 10px;
 }
 
-/* Radio buttony (Filtry práce) */
+/* Radio button (industry filtres) */
 .radio-item {
     margin-bottom: 10px;
     display: flex;
@@ -230,10 +228,10 @@ input[type=range] {
     display: flex;
     align-items: center;
     color: #444;
-    margin-bottom: 0; /* Reset marginu z obecného labelu */
+    margin-bottom: 0; 
 }
 
-/* Text v sekci O projektu */
+/* Text about project */
 .info-text {
     font-size: 13px;
     color: #555;
@@ -250,7 +248,7 @@ input[type=range] {
 }
 
 /* =========================================
-   6. BAREVNÉ TEČKY
+   6. COLOURS
    ========================================= */
 .dot {
     width: 12px;
