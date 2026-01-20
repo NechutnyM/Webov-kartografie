@@ -1,0 +1,267 @@
+/* =========================================
+   1. ZÁKLADNÍ NASTAVENÍ A MAPA
+   ========================================= */
+body { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    overflow: hidden; /* Zabrání scrollování celé stránky */
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    background: #aad3df;
+}
+
+/* =========================================
+   2. VYHLEDÁVÁNÍ (VLEVO NAHOŘE)
+   ========================================= */
+#search-container {
+    position: absolute;
+    top: 20px;
+    left: 60px; /* Odsazení zleva, aby to nelezlo do zoom tlačítek */
+    z-index: 1000;
+    background: white;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+}
+
+#search-input { 
+    border: none; 
+    padding: 8px; 
+    outline: none; 
+    width: 200px; 
+    font-family: inherit;
+    font-size: 14px;
+}
+
+#search-btn { 
+    background: #333; 
+    color: white; 
+    border: none; 
+    padding: 8px 12px; 
+    cursor: pointer; 
+    border-radius: 2px; 
+}
+
+#search-btn:hover { background: #555; }
+
+/* =========================================
+   3. SIDEBAR (VYSOUVACÍ PANEL VPRAVO)
+   ========================================= */
+#sidebar {
+    position: absolute;
+    top: 0; right: 0;
+    width: 320px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    z-index: 2000;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+}
+
+/* Třída pro schovaný panel */
+#sidebar.collapsed {
+    transform: translateX(320px);
+}
+
+/* Tlačítko (Jazýček) pro zasouvání */
+#sidebar-toggle {
+    position: absolute;
+    left: -40px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-content {
+    padding: 20px;
+    overflow-y: auto; /* Rolování obsahu, pokud je dlouhý */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h2 {
+    font-size: 18px;
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   4. AKORDEON (NOVÁ ČÁST PRO ROZBALOVÁNÍ)
+   ========================================= */
+
+/* Celá položka (Header + Content) */
+.accordion-item {
+    margin-bottom: 15px;
+    border: 1px solid #eee; /* Jemný rámeček okolo sekce */
+    border-radius: 4px;
+    overflow: hidden; /* Aby obsah nepřetékal při animaci */
+}
+
+/* Hlavička (to, na co klikáš) */
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    cursor: pointer;
+    background: #fdfdfd;
+    transition: background 0.2s;
+}
+
+.accordion-header:hover {
+    background: #f0f0f0;
+}
+
+/* Levá část hlavičky (Checkbox + Text) */
+.header-left {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+}
+
+.header-left input {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #333; /* Barva zaškrtnutí */
+}
+
+/* Šipka vpravo */
+.arrow-icon {
+    font-size: 12px;
+    color: #888;
+    transition: transform 0.3s ease; /* Plynulé otočení */
+}
+
+/* Obsah (Slider, Filtry...) - Defaultně skryto! */
+.accordion-content {
+    display: none; /* Tady je ten trik - schováno */
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+    animation: fadeIn 0.4s ease; /* Efekt při objevení */
+}
+
+/* --- STAVY --- */
+
+/* Když má položka třídu .active, ukaž obsah */
+.accordion-item.active .accordion-content {
+    display: block;
+}
+
+/* Když má položka třídu .active, otoč šipku */
+.accordion-item.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Animace pro hladké zobrazení obsahu */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   5. OVLÁDACÍ PRVKY UVNITŘ (SLIDERY, RADIO)
+   ========================================= */
+
+.controls label {
+    font-size: 13px;
+    color: #666;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+input[type=range] {
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.small-title {
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #333;
+    margin-top: 15px;
+    border-top: 1px dashed #eee;
+    padding-top: 10px;
+}
+
+/* Radio buttony (Filtry práce) */
+.radio-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-item input {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.radio-item label {
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #444;
+    margin-bottom: 0; /* Reset marginu z obecného labelu */
+}
+
+/* Text v sekci O projektu */
+.info-text {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.info-text a {
+    color: #2196f3;
+    text-decoration: none;
+}
+
+.info-text a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   6. BAREVNÉ TEČKY
+   ========================================= */
+.dot {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    margin-right: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1); 
+}
+
+.agri { background: #4caf50; }
+.const { background: #ff9800; }
+.hosp { background: #2196f3; }
+.fish { background: #00bcd4; }
