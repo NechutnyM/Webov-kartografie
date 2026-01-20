@@ -259,7 +259,7 @@ input[type=range] {
     box-shadow: 0 0 0 1px rgba(0,0,0,0.1); 
 }
 
-.agri { background: #4caf50; }
-.const { background: #ff9800; }
-.hosp { background: #2196f3; }
-.fish { background: #00bcd4; }
+.agri { background: #4daf4a; }
+.const { background: #e41a1c; }
+.hosp { background: #377eb8; }
+.fish { background: #984ea3; }

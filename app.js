@@ -1,4 +1,4 @@
-// 1. Inicializace mapy
+// 1. Map initialization
 const map = L.map('map').setView([-27, 133], 4);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -11,37 +11,35 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(map);
 
-// --- NOVÉ: PŘIDÁNÍ MĚŘÍTKA ---
+// Map scale
 L.control.scale({
-    metric: true,      // Zapnout metry/kilometry
-    imperial: false,   // Vypnout míle/stopy (v Austrálii nedávají smysl)
-    position: 'bottomleft' // Pozice: vlevo dole
+    metric: true,      // Metric measurments
+    imperial: false,   
+    position: 'bottomleft' // Position
 }).addTo(map);
 
 
-// --- PROMĚNNÉ ---
+// Polygon layers
 let statesLayer;
 let postcodesLayer;
 
-// Výchozí hodnoty
+// Default values
 let currentFilter = 'Agriculture'; 
-let opacityStates = 0.5;    // Průhlednost států (vlastní slider)
-let opacityPostcodes = 0.5; // Průhlednost PSČ (vlastní slider)
+let opacityStates = 0.5;    // Transparency
+let opacityPostcodes = 0.5; // Transparency
 
-// --- STYLOVÁNÍ ---
-
+// polygon style of states
 function styleStates(feature) {
     return {
         fillColor: '#e9e761', // Tvoje žlutá barva
         weight: 1,
         opacity: 0.8,
         color: '#574c4c',
-        // Používáme proměnnou opacityStates
         fillOpacity: opacityStates 
     };
 }
 
-// Hlavní funkce pro barvení PSČ
+// Function for colour of postcodes polygon
 function stylePostcodes(feature) {
     const p = feature.properties;
     // Zjistíme, jestli je polygon pro daný filtr aktivní
@@ -53,19 +51,18 @@ function stylePostcodes(feature) {
     // Pokud je neaktivní, použijeme jen 30 % z této hodnoty.
     let currentFillOpacity = isActive ? opacityPostcodes : (opacityPostcodes * 0.3);
     
-    // STYL PRO AKTIVNÍ OBLASTI
+    // STYLE FOR ACTIVE POLYGON
     if (isActive) {
-        if (currentFilter === 'Agriculture') fillColor = '#4caf50';
-        else if (currentFilter === 'Construction') fillColor = '#ff9800';
-        else if (currentFilter === 'Hospitality_Tourism') fillColor = '#2196f3'; // Tvoje názvosloví
-        else if (currentFilter === 'Fishing_Forestry') fillColor = '#00bcd4';
+        if (currentFilter === 'Agriculture') fillColor = '#4daf4a';
+        else if (currentFilter === 'Construction') fillColor = '#e41a1c';
+        else if (currentFilter === 'Hospitality_Tourism') fillColor = '#377eb8'; 
+        else if (currentFilter === 'Fishing_Forestry') fillColor = '#984ea3';
     }
 
     return {
         fillColor: fillColor,
         fillOpacity: currentFillOpacity,
-        
-        // HRANICE (Borders)
+        // Outliner
         color: '#333333',
         weight: 0.8,
         opacity: 1 // Hranice mizí spolu s výplní
@@ -73,9 +70,9 @@ function stylePostcodes(feature) {
 }
 
 
-// --- NAČÍTÁNÍ DAT ---
+// DATA LOADING
 
-// Státy
+// STATES
 fetch('data/states.json')
     .then(res => res.json())
     .then(data => {
@@ -84,7 +81,7 @@ fetch('data/states.json')
         statesLayer.addTo(map);
     });
 
-// PSČ
+// POSTCODE
 fetch('data/postcodes.json')
     .then(res => res.json())
     .then(data => {
@@ -103,14 +100,14 @@ fetch('data/postcodes.json')
                 `);
             }
         });
-        // Hned přidáme do mapy
+        // Add to map
         postcodesLayer.addTo(map);
     });
 
 
-// --- OVLÁDÁNÍ VRSTEV (Sidebar) ---
+// LAYER CONTROLLING (Sidebar) 
 
-// 1. STÁTY
+// 1. STATES
 const checkStates = document.getElementById('check-states');
 const sliderStates = document.getElementById('slider-states');
 
@@ -127,7 +124,7 @@ sliderStates.addEventListener('input', function(e) {
     if (statesLayer) statesLayer.setStyle(styleStates);
 });
 
-// 2. PSČ
+// 2. POSTCODE
 const checkPostcodes = document.getElementById('check-postcodes');
 const sliderPostcodes = document.getElementById('slider-postcodes');
 const radioFilters = document.querySelectorAll('input[name="jobFilter"]');
@@ -145,7 +142,7 @@ sliderPostcodes.addEventListener('input', function(e) {
     if (postcodesLayer) postcodesLayer.setStyle(stylePostcodes);
 });
 
-// Přepínání kategorií
+// Category switching
 radioFilters.forEach(radio => {
     radio.addEventListener('change', function(e) {
         currentFilter = e.target.value;
@@ -156,7 +153,7 @@ radioFilters.forEach(radio => {
 });
 
 
-// --- FUNKCIONALITA SIDEBARU (Zasouvání) ---
+// SIDEBAR FUNCTIONALITY (Sliding)
 const sidebar = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebar-toggle');
 const sidebarIcon = sidebarToggle.querySelector('i');
@@ -164,7 +161,7 @@ const sidebarIcon = sidebarToggle.querySelector('i');
 sidebarToggle.addEventListener('click', function() {
     sidebar.classList.toggle('collapsed');
     
-    // Změna ikonky šipky
+    // Icon changing
     if (sidebar.classList.contains('collapsed')) {
         sidebarIcon.classList.remove('fa-chevron-right');
         sidebarIcon.classList.add('fa-chevron-left');
@@ -175,8 +172,7 @@ sidebarToggle.addEventListener('click', function() {
 });
 
 
-// --- VYHLEDÁVÁNÍ (Vlevo nahoře) ---
-
+// SEARCHING BOX
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
 
@@ -185,7 +181,7 @@ function searchPostcode() {
     
     if (!query) return;
     if (!postcodesLayer) {
-        alert("Data se ještě načítají...");
+        alert("Data loading");
         return;
     }
 
@@ -193,7 +189,6 @@ function searchPostcode() {
 
     postcodesLayer.eachLayer(function(layer) {
         const props = layer.feature.properties;
-        // Zde používám tvůj název sloupce POA_CODE21
         if (String(props.POA_CODE21) === query) {
             foundLayer = layer;
         }

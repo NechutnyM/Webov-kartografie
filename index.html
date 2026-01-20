@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Austrálie: Vízové příležitosti (462)</title>
+    <title>Australia: Eligible Work Map</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -15,7 +15,7 @@
     <div id="map"></div>
 
     <div id="search-container">
-        <input type="text" id="search-input" placeholder="Hledat PSČ (např. 4870)...">
+        <input type="text" id="search-input" placeholder="Search for postcode (e.g., 4870)...">
         <button id="search-btn" type="button"><i class="fas fa-search"></i></button>
     </div>
 
@@ -94,15 +94,25 @@
                 <div class="accordion-content">
                     <div class="info-text">
                         <p>
-                            Tato interaktivní mapa zobrazuje oblasti v Austrálii, které splňují podmínky pro
-                            <strong>Work and Holiday víza (subclass 462)</strong>.
+                            This web application provides a clear and interactive overview of areas in Australia where selected types of work can be undertaken in order to meet the requirements for extending a visa for an additional year (subclass 462).
+                            The main objective of the project is to facilitate orientation within spatial data and to link information about employment opportunities with their geographical location. The structure of the application is designed to allow future extension, modification, and updating of both the data and the overall functionality.
+                            The project was developed as a student work focusing on web cartography and spatial data processing.
                         </p>
                         <p>
-                            Data jsou orientační. Pro oficiální informace navštivte web 
-                            <a href="https://immi.homeaffairs.gov.au/" target="_blank">Home Affairs</a>.
+                            Information on eligible employment opportunities was obtained from the official website of the Australian Department of Home Affairs: 
+                            <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/work-holiday-462/specified-462-work" target="_blank">Visa - subclass 462</a>.
                         </p>
+                        <p>
+                            Polygon layers of administrative units and postal areas were sourced from the Australian Bureau of Statistics (ABS): 
+                            <a href="https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files" target="_blank">Polygon layers</a>.
+                        </p>
+
+                        <p>
+                            <strong>Contact:</strong> <a href="mailto:your@email.com">nechutnm@natur.cuni.cz</a>
+                        </p>
+
                         <p style="font-size: 11px; color: #888; margin-top: 10px;">
-                            Data aktualizována: 2024
+                            Release: January 2026
                         </p>
                     </div>
                 </div>
