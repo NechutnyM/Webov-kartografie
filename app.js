@@ -31,7 +31,7 @@ let opacityPostcodes = 0.5; // Transparency
 // polygon style of states
 function styleStates(feature) {
     return {
-        fillColor: '#FFFACD', // Tvoje žlutá barva
+        fillColor: '#e9e761', // Tvoje žlutá barva
         weight: 1,
         opacity: 0.8,
         color: '#333',
