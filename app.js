@@ -91,12 +91,12 @@ fetch('data/postcodes.json')
             onEachFeature: function(feature, layer) {
                 const p = feature.properties;
                 layer.bindPopup(`
-                    <b>PSČ: ${p.POA_CODE21 || p.POSTCODE}</b><br>
+                    <b>Postcode: ${p.POA_CODE21 || p.POSTCODE}</b><br>
                     ${p.State}<br><hr>
-                    🌱 Agri: ${p.Agriculture === 1 ? 'ANO' : 'ne'}<br>
-                    🏗️ Const: ${p.Construction === 1 ? 'ANO' : 'ne'}<br>
-                    ☕ Hosp: ${p.Hospitality_Tourism === 1 ? 'ANO' : 'ne'}<br>
-                    🐟 Fish: ${p.Fishing_Forestry === 1 ? 'ANO' : 'ne'}
+                    🌱 Agriculture: ${p.Agriculture === 1 ? 'ANO' : 'ne'}<br>
+                    🏗️ Construction: ${p.Construction === 1 ? 'ANO' : 'ne'}<br>
+                    ☕ Hospitality and tourism: ${p.Hospitality_Tourism === 1 ? 'ANO' : 'ne'}<br>
+                    🌲 Forestry and fishing: ${p.Fishing_Forestry === 1 ? 'ANO' : 'ne'}
                 `);
             }
         });
