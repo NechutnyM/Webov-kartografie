@@ -34,7 +34,7 @@ function styleStates(feature) {
         fillColor: '#e9e761', // Tvoje žlutá barva
         weight: 1,
         opacity: 0.8,
-        color: '#574c4c',
+        color: '#dd3d3d',
         fillOpacity: opacityStates 
     };
 }
